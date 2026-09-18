@@ -236,6 +236,6 @@ curl: (60) SSL certificate problem: self-signed certificate
 
 | № групи | Назва групи (власне формулювання) | Рядки виводу, віднесені до групи | Обґрунтування |
 | :---         |     :---:      |     :---:     |           ---: |
-| git status   | git status     | git status    |  git status    |
+| Обмін прикладними даними (HTTP)   | > GET / HTTP/2, < HTTP/2 200, > Host: sqlite.org    | git status    |  git status    |
 | git diff     | git diff       | git diff      |  git diff      |
 
