@@ -83,3 +83,8 @@ curl -v sqlite.org
 </html>
 * Connection #0 to host sqlite.org left intact
 ```
+# A.2. Запит без захисту з'єднання
+Команда:
+```text
+curl -v "http://neverssl.com"
+```
