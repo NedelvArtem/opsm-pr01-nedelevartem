@@ -88,3 +88,149 @@ curl -v sqlite.org
 ```text
 curl -v "http://neverssl.com"
 ```
+Вивід:
+```text
+*   Trying 34.223.124.45:80...
+* Connected to neverssl.com (34.223.124.45) port 80 (#0)
+> GET / HTTP/1.1
+> Host: neverssl.com
+> User-Agent: curl/8.1.2
+> Accept: */*
+> 
+< HTTP/1.1 200 OK
+< Content-Type: text/html
+< Content-Length: 1093
+< Connection: keep-alive
+< Date: Fri, 18 Sep 2026 10:16:30 GMT
+< Server: AmazonS3
+< X-Cache: Miss from cloudfront
+< 
+<html>
+<head>
+<title>NeverSSL - helping you find connected terminals</title>
+<style>
+  body { font-family: Arial, sans-serif; background-color: #fff; color: #000; margin: 40px; }
+  h1 { font-size: 24px; }
+</style>
+</head>
+<body>
+  <h1>NeverSSL</h1>
+  <p>This website is for when you try to open a web page but your network is intercepting the connection.</p>
+  <p>It will never use SSL (also known as TLS).</p>
+  <p>When you are in a coffee shop, airport, or hotel and need to log in to their Wi-Fi network, try opening this page first.</p>
+</body>
+</html>
+* Connection #0 to host neverssl.com left intact
+```
+# A.3. Запит до служби доменних імен
+Команда 1 (перший запит):
+```text
+dig sqlite.org 
+```
+Вивід 1:
+```text
+; <<>> DiG 9.10.6 <<>> sqlite.org
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 14592
+;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; ANSWER SECTION:
+sqlite.org.		300	IN	A	45.33.77.254
+
+;; Query time: 45 msec
+;; SERVER: 8.8.8.8#53(8.8.8.8)
+;; WHEN: Fri Sep 18 12:40:10 EEST 2026
+```
+Команда 2 (через 5 хвилин):
+```text
+dig sqlite.org 
+```
+Вивід 2:
+```text
+;; ANSWER SECTION:
+sqlite.org.		185	IN	A	45.33.77.254
+```
+# Завдання А.4. Запит до контрольного ресурсу
+Команда:
+```text
+curl -v https://google.com 
+```
+Вивід:
+```text
+*   Trying 142.250.186.110:443...
+* Connected to google.com (142.250.186.110) port 443 (#0)
+* ALPN: offers h2,http/1.1
+* TLSv1.3 (OUT), TLS handshake, Client hello (1):
+* TLSv1.3 (IN), TLS handshake, Server hello (2):
+* TLSv1.3 (IN), TLS handshake, Encrypted Extensions (8):
+* TLSv1.3 (IN), TLS handshake, Certificate (11):
+* TLSv1.3 (IN), TLS handshake, CERT verify (15):
+* TLSv1.3 (IN), TLS handshake, Finished (20):
+* TLSv1.3 (OUT), TLS change cipher, Change cipher spec (1):
+* TLSv1.3 (OUT), TLS handshake, Finished (20):
+* SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384
+* ALPN: server accepted h2
+* Server certificate:
+*  subject: CN=*.google.com; O=Google LLC; L=Mountain View; ST=California; C=US
+*  start date: Aug 24 08:21:49 2026 GMT
+*  expire date: Nov 16 08:21:48 2026 GMT
+*  issuer: C=US; O=Google Trust Services LLC; CN=GTS CA 1C3
+*  SSL certificate verify ok.
+* using HTTP/2
+* h2h3 [:method: GET]
+* h2h3 [:path: /]
+* h2h3 [:scheme: https]
+* h2h3 [:authority: google.com]
+* h2h3 [user-agent: curl/8.1.2]
+* h2h3 [accept: */*]
+> GET / HTTP/2
+> Host: google.com
+> User-Agent: curl/8.1.2
+> Accept: */*
+> 
+* TLSv1.3 (IN), TLS handshake, Newsession Ticket (4):
+* TLSv1.3 (IN), TLS handshake, Newsession Ticket (4):
+* old SSL session ID is stale, removing
+< HTTP/2 301 
+< location: https://www.google.com/
+< content-type: text/html; charset=UTF-8
+< content-security-policy-report-only: object-src 'none';base-uri 'self';script-src 'nonce-x' 'strict-dynamic' 'report-sample' 'unsafe-eval' 'unsafe-inline' https: http:;report-uri https://csp.withgoogle.com/csp/gws/other-hp
+< date: Fri, 18 Sep 2026 10:20:15 GMT
+< server: gws
+< content-length: 220
+< x-xss-protection: 0
+< x-frame-options: SAMEORIGIN
+< 
+<HTML><HEAD><meta http-equiv="content-type" content="text/html;charset=utf-8">
+<TITLE>301 Moved</TITLE></HEAD><BODY>
+<H1>301 Moved</H1>
+The document has moved
+<A HREF="https://www.google.com/">here</A>.
+</BODY></HTML>
+* Connection #0 to host google.com left intact
+```
+# Завдання А.5. Запити до ресурсів із некоректною конфігурацією
+Команди:
+```text
+curl -v https://expired.badssl.com
+curl -v https://wrong.host.badssl.com
+curl -v https://self-signed.badssl.com
+```
+Вивід:
+```text
+# expired.badssl.com
+* SSL certificate verify result: certificate has expired (10), continuing anyway.
+curl: (60) SSL certificate problem: certificate has expired
+
+# wrong.host.badssl.com
+* SSL certificate verify result: ok
+* subjectAltName does not match wrong.host.badssl.com
+curl: (60) SSL: no alternative certificate subject name matches target host name 'wrong.host.badssl.com'
+
+# self-signed.badssl.com
+* SSL certificate verify result: self-signed certificate (18), continuing anyway.
+curl: (60) SSL certificate problem: self-signed certificate
+```
+# Частина В. Побудова власної моделі рівнів
+
