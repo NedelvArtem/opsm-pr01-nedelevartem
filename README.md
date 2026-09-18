@@ -233,4 +233,11 @@ curl: (60) SSL: no alternative certificate subject name matches target host name
 curl: (60) SSL certificate problem: self-signed certificate
 ```
 # Частина В. Побудова власної моделі рівнів
-
+| № групи    | Назва групи (власне формулювання) | Рядки виводу, віднесені до групи | Обґрунтування|
+| ------------- | ------------- |
+| Група | F5 2.02  |
+| Номер варіанта  | 17  |
+| Домен варіанта  | sqlite.org  |
+| Середовище виконання	  | Windows  |
+| Версія curl  | curl 8.7.1  |
+| Дата виконання  | 18/09/2026  |
