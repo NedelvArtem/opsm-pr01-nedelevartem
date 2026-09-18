@@ -234,7 +234,7 @@ curl: (60) SSL certificate problem: self-signed certificate
 ```
 # Частина В. Побудова власної моделі рівнів
 
-| Left-aligned | Center-aligned | Right-aligned |  Right-aligned |
+| № групи | Назва групи (власне формулювання) | Рядки виводу, віднесені до групи | Обґрунтування |
 | :---         |     :---:      |     :---:     |           ---: |
 | git status   | git status     | git status    |  git status    |
 | git diff     | git diff       | git diff      |  git diff      |
